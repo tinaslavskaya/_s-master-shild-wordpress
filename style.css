@@ -1,0 +1,12 @@
+/**
+ * Theme Name: Дочерняя тема _s-master-shild
+ * Template: _s-master
+ *
+ * Description: Дочерняя тема для темы _s-master
+ * Author: Tina
+ * Version: 1.0
+ */
+
+/* импортируем стили родительской темы */
+@import url("../_s-master/style.css");
+

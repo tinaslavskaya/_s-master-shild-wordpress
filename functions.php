@@ -102,6 +102,7 @@ function s_master_shild_register_post_types() {
 }
 add_action( 'init', 's_master_shild_register_post_types' );
 ?>
+
 <?php
 // shortcode [news] 
 add_shortcode( 'news', 's_master_shild_news_shortcode' );
@@ -126,30 +127,11 @@ function s_master_shild_news_shortcode ($atts) {
 	$query_news = new WP_Query(  $arrg );
 	?>
 	<?php if($query_news->have_posts()) : ?>
-     <div class="d-flex flex-column justify-content-center align-items-start mb-3" style="max-width: 1000px; margin: 0 auto;">
+    <div class="d-flex flex-column justify-content-center align-items-start mb-3" style="max-width: 1000px; margin: 0 auto;">
         <div class="my-3">Количество выводимых постов: <?php echo (wp_count_posts( 'news')->publish); ?></div>
-     </div>
-      <?php while($query_news->have_posts()) : $query_news->the_post(); ?>
-      <div class="card mb-3" style="max-width: 1000px; margin: 0 auto;">
-        <div class="p-4">
-		 <div class="row g-0">
-			<div class="col-md-4">
-			  <?php if(has_post_thumbnail()) : ?>
-                 <?php the_post_thumbnail(array(490, 328), ['class' => 'img-fluid rounded-start']); ?>
-              <?php endif; ?>
-			</div>
-			<div class="col-md-8">
-	          <div class="card-body">
-	          	 <?php the_title( $before = '<h2 class="card-title">', $after = '</h2>', $display = true ); ?>
-	          	 <p class="card-text"><?php s_master_word_count(); /*the_excerpt();*/?></p>
-	          	 <p class="text-end">
-	          	 	<a href="<?php the_permalink(); ?>"class="btn btn-primary px-5 rounded-pill text-white">Link</a>
-	          	 </p>
-	          </div>
-		    </div>
-		 </div>
-        </div>
-      </div>  
+    </div>
+    <?php while($query_news->have_posts()) : $query_news->the_post(); ?>
+      	<?php get_template_part('template-parts/content', 'news'); ?>
     <?php endwhile; ?> 
     <?php wp_reset_postdata(); ?>
   <?php endif; ?>         	 	
@@ -166,15 +148,15 @@ function s_master_shild_add_class_to_excerpt( $excerpt ) {
 
 //count word for the_content	
 function s_master_word_count () {
-$content = get_the_content();
- if(!has_excerpt()) {
-    $word_count = str_word_count($content , 0);
-    if($word_count >= 55) {
-      echo wp_trim_words($content, 20, '[...]' );
-    } else {
-      the_excerpt();
-    }  
- }
+	$content = get_the_content();
+	if(!has_excerpt()) {
+	    $word_count = str_word_count($content , 0);
+	    if($word_count >= 55) {
+	      echo wp_trim_words($content, 20, '[...]' );
+	    }  
+	} else {
+	    the_excerpt();
+	} 
 } 
 
 ?>
